@@ -8,6 +8,9 @@ package proyecto1;
  *
  * @author Christopher
  */
+import Controller.Controlador;
+import proyecto1.Clientes;
+import View.Vista;
 public class Proyecto1 {
 
     /**
@@ -16,5 +19,8 @@ public class Proyecto1 {
     public static void main(String[] args) {
         // TODO code application logic here
     }
-    
+    Vista vista = new Vista();
+    Clientes cliente = new Clientes("20","Jose","Cesar");
+    Controlador controlador = new Controlador(cliente,vista);
+    Clientes cliente1 = new Clientes ("","","");
 }
