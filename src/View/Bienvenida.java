@@ -3,7 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package View;
-
+import Controller.BController;
+import javax.swing.*;
+import Controller.LoginController;
 /**
  *
  * @author Christopher
@@ -13,8 +15,11 @@ public class Bienvenida extends javax.swing.JFrame {
     /**
      * Creates new form Bienvenida
      */
-    public Bienvenida() {
+        private JFrame frame;
+    private BController controller;
+    public Bienvenida(BController controller) {
         initComponents();
+        
     }
 
     /**

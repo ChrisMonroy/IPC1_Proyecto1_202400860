@@ -4,19 +4,42 @@
  */
 package View;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
+import Controller.LoginController;
 
 /**
  *
  * @author Christopher
  */
-public class Login extends javax.swing.JFrame {
+
+public class LoginView extends javax.swing.JFrame {
 
     /**
      * Creates new form Login
      */
-    public Login() {
+    private JFrame frame;
+    private JTextField userField;
+    private JPasswordField passwordField;
+    private LoginController controller;
+    public LoginView(LoginController controller) {
         initComponents();
+         this.controller = controller;
+        frame = new JFrame("Login");
+        userField = new JTextField(20);
+        passwordField = new JPasswordField(20);
+        JButton loginButton = new JButton("Login");
+
+        loginButton.addActionListener(e -> controller.login(userField.getText(), new String(passwordField.getPassword())));
+
+        frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+        frame.add(new JLabel("Usuario:"));
+        frame.add(userField);
+        frame.add(new JLabel("Contraseña:"));
+        frame.add(passwordField);
+        frame.add(loginButton);
+        frame.pack();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
     }
 
     /**
@@ -116,43 +139,8 @@ public class Login extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(this,  "Credenciales Incorrectas", "Advertencia", JOptionPane.WARNING_MESSAGE);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Login().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
