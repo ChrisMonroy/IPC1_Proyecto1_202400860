@@ -26,39 +26,20 @@ public Clientes(String cui, String nombre, String apellido){
 this.cui=cui;
 this.nombre=nombre;
 this.apellido=apellido;
-this.cuentas= new Cuentas[10];
+this.cuentas= new Cuentas[3];
 this.numCuentas=0;
 }
 
-
-public String getCui() {
-return cui;
+public void AgregarCuenta(Cuentas cuenta){
+    if(numCuentas <= cuentas.length){
+        cuentas[numCuentas]=cuenta;
+        numCuentas = numCuentas + 1;
+    } else {
+        System.out.println("Ya no se pueden agregar mas cuentas");
+    }
+    
 }
 
-
-public void setCui(String cui) {
-this.cui = cui;
-}
-
-
-public String getNombre() {
-return nombre;
-}
-
-
-public void setNombre(String nombre) {
-this.nombre = nombre;
-}
-
-
-public String getApellido() {
-return apellido;
-}
-
-
-public void setApellido(String apellido) {
-this.apellido = apellido;
-}
 
 
 
