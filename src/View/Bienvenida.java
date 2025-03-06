@@ -17,8 +17,34 @@ public class Bienvenida extends javax.swing.JFrame {
      */
         private JFrame frame;
     private BController controller;
+    
     public Bienvenida(BController controller) {
-        initComponents();
+        this.controller = controller;
+        
+        JButton registroButton = new JButton("Registro Usuarios");
+        JButton crearCuentaButton = new JButton("Crear Usuario");
+        JButton retirosButton = new JButton("Retiros");
+        JButton depositosButton = new JButton("Depósitos");
+        JButton historialButton = new JButton("Historial de Transacciones");
+        JButton generarBitacoraButton = new JButton("Generar Bitácora");
+        
+        registroButton.addActionListener(e -> controller.mostrarRegistroUsuario());
+        crearCuentaButton.addActionListener(e -> controller.mostrarCrearCuenta());
+        retirosButton.addActionListener(e -> controller.mostrarRetiros());
+                depositosButton.addActionListener(e -> controller.mostrarDepositos());
+        historialButton.addActionListener(e -> controller.mostrarHistorialTransacciones());
+        generarBitacoraButton.addActionListener(e -> controller.generarBitacoraPDF());
+        
+        frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+        frame.add(registroButton);
+        frame.add(crearCuentaButton);
+        frame.add(depositosButton);
+        frame.add(retirosButton);
+        frame.add(historialButton);
+        frame.add(generarBitacoraButton);
+        frame.pack();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
         
     }
 
@@ -120,37 +146,6 @@ public class Bienvenida extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Bienvenida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Bienvenida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Bienvenida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Bienvenida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Bienvenida().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

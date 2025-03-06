@@ -4,12 +4,14 @@
  */
 package Controller;
 import proyecto1.Banco;
+import proyecto1.Bitacora;
 /**
  *
  * @author Christopher
  */
 public class BController {
     private Banco banco;
+    private Bitacora bitacora;
 
 public BController(Banco banco) {
         this.banco = banco;
