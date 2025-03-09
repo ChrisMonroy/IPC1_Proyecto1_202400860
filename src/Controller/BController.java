@@ -3,8 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Controller;
-import proyecto1.Banco;
-import proyecto1.Bitacora;
+import Model.Banco;
+import Model.Bitacora;
 /**
  *
  * @author Christopher

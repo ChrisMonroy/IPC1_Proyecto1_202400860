@@ -9,13 +9,13 @@ package Controller;
  * @author Christopher
  */
 import View.Vista;
-import proyecto1.Clientes;
-import proyecto1.Cuentas;
+import Model.Clientes;
+import Model.Cuentas;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import proyecto1.Clientes;
-import proyecto1.Cuentas;
+import Model.Clientes;
+import Model.Cuentas;
 import View.Vista;
 public class Controlador {
 public Vista vista;

@@ -9,7 +9,7 @@ package View;
  * @author Christopher
  */
 import javax.swing.*;
-import controller.CrearCuentaController;
+import Controller.CrearCuentaController;
 
 public class CrearCuenta extends javax.swing.JFrame {
 

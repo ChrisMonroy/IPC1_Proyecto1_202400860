@@ -8,9 +8,9 @@ package Controller;
  *
  * @author Christopher
  */
-import proyecto1.Banco;
-import proyecto1.Clientes;
-import proyecto1.Bitacora;
+import Model.Banco;
+import Model.Clientes;
+import Model.Bitacora;
 import javax.swing.*;
 
 public class RUsuarios {

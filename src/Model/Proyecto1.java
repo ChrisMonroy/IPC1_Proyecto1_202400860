@@ -2,14 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
-package proyecto1;
+package Model;
 
 /**
  *
  * @author Christopher
  */
 import Controller.Controlador;
-import proyecto1.Clientes;
+import Model.Clientes;
 import View.Vista;
 public class Proyecto1 {
 

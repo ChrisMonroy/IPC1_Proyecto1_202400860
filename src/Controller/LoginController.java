@@ -4,7 +4,7 @@
  */
 package Controller;
 import View.LoginView;
-import proyecto1.Banco;
+import Model.Banco;
 import View.Bienvenida;
 import javax.swing.JOptionPane;
 /**
