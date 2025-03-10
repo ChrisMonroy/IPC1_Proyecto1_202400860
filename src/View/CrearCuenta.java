@@ -10,6 +10,8 @@ package View;
  */
 import javax.swing.*;
 import Controller.CrearCuentaController;
+import Model.Banco;
+import Model.Clientes;
 
 public class CrearCuenta extends javax.swing.JFrame {
 
@@ -17,24 +19,40 @@ public class CrearCuenta extends javax.swing.JFrame {
      * Creates new form CrearCuenta
      */
     private JFrame frame;
-    private JTextField idField;
-    private JTextField cuiField;
+    private JComboBox<String> clienteComboBox; // Lista desplegable para seleccionar el cliente
+    private JTextField saldoField; // Campo para el saldo inicial
     private CrearCuentaController controller;
+
     
-    public CrearCuenta(CrearCuentaController controller) {
-        this.controller=controller;
-        frame = new JFrame ("Crear cuenta");
-        idField= new JTextField(20);
-        cuiField = new JTextField(20);
-        JButton CrearCuenta = new JButton ("Crear Cuenta");
-        
-        CrearCuenta.addComponentListener(e -> controller.CrearCuenta(idField.getText(), cuiField.getText()));
-        frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
-        frame.add(new JLabel("ID Cuenta:"));
-        frame.add(idField);
-        frame.add(new JLabel("CUI Cuenta"));
-        frame.add(cuiField);
-        frame.add(CrearCuenta);
+    public CrearCuenta(Banco banco, CrearCuentaController controller) {
+       this.controller = controller;
+        frame = new JFrame("Crear Cuenta");
+
+        // Crear lista desplegable de clientes
+        clienteComboBox = new JComboBox<>();
+        for (Clientes cliente : banco.clientes.values()) {
+            clienteComboBox.addItem(cliente.cui + " - " + cliente.nombre + " " + cliente.apellido);
+        }
+
+        saldoField = new JTextField(20); // Inicializar el campo de saldo
+        JButton crearButton = new JButton("Crear Cuenta");
+
+        crearButton.addActionListener(e -> {
+            String cuiCliente = clienteComboBox.getSelectedItem().toString().split(" - ")[0]; // Obtener el CUI del cliente seleccionado
+            try {
+                double saldoInicial = Double.parseDouble(saldoField.getText());
+                controller.crearCuenta(cuiCliente, saldoInicial);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(frame, "Saldo inicial inválido. Debe ser un número.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+        frame.add(new JLabel("Seleccionar Cliente:"));
+        frame.add(clienteComboBox);
+        frame.add(new JLabel("Saldo Inicial:")); // Etiqueta para el saldo inicial
+        frame.add(saldoField); // Campo para el saldo inicial
+        frame.add(crearButton);
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);

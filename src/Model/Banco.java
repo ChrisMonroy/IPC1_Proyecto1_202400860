@@ -9,14 +9,14 @@ import java.util.HashMap;
  * @author Christopher
  */
 public class Banco {
- private HashMap<String, Clientes> clientes; // Usamos HashMap para almacenar clientes
+ public HashMap<String, Clientes> clientes; // Usamos HashMap para almacenar clientes
 
     public Banco() {
         clientes = new HashMap<>();
     }
 
     public boolean agregarCliente(Clientes cliente) {
-        if (clientes.size() < 6) { // Sección D
+        if (clientes.size() < 6) { 
             clientes.put(cliente.cui, cliente); // Usamos el CUI como clave
             return true;
         }

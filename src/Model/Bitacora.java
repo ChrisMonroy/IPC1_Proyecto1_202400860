@@ -24,6 +24,10 @@ public class Bitacora {
     public void agregarRegistro(String registro) {
         registros.add(registro);
     }
+    
+    public String[] obtenerRegistros() {
+        return registros.toArray(new String[0]);
+    }
 
     public void generarPDF(String nombreArchivo) {
         Document document = new Document();

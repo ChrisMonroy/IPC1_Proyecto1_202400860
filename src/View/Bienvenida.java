@@ -15,37 +15,44 @@ public class Bienvenida extends javax.swing.JFrame {
     /**
      * Creates new form Bienvenida
      */
-        private JFrame frame;
+    private JFrame frame;
     private BController controller;
-    
+   
+     public static void main(String args[]) {
+         java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+            }
+        });
+     }
     public Bienvenida(BController controller) {
+        
+        initComponents();
         this.controller = controller;
         
-        JButton registroButton = new JButton("Registro Usuarios");
-        JButton crearCuentaButton = new JButton("Crear Usuario");
+        /*JButton registroButton = new JButton("Registro Usuarios");
+        JButton crearCuentaButton = new JButton("Crear Cuenta");
         JButton retirosButton = new JButton("Retiros");
         JButton depositosButton = new JButton("Depósitos");
         JButton historialButton = new JButton("Historial de Transacciones");
-        JButton generarBitacoraButton = new JButton("Generar Bitácora");
+        JButton generarBitacoraButton = new JButton("Generar Bitácora"); */
+        add (jButton1);
+        add (jButton2);
+        add (jButton3);
+        add (jButton4);
+        add (jButton5);
+        add (jButton6);
         
-        registroButton.addActionListener(e -> controller.mostrarRegistroUsuario());
-        crearCuentaButton.addActionListener(e -> controller.mostrarCrearCuenta());
-        retirosButton.addActionListener(e -> controller.mostrarRetiros());
-                depositosButton.addActionListener(e -> controller.mostrarDepositos());
-        historialButton.addActionListener(e -> controller.mostrarHistorialTransacciones());
-        generarBitacoraButton.addActionListener(e -> controller.generarBitacoraPDF());
+        jButton1.addActionListener(e -> controller.mostrarRegistroUsuario());
+        jButton2.addActionListener(e -> controller.mostrarCrearCuenta());
+        jButton3.addActionListener(e -> controller.mostrarRetiros());
+        jButton4.addActionListener(e -> controller.mostrarDepositos());
+        jButton5.addActionListener(e -> controller.mostrarHistorialTransacciones());
+        jButton6.addActionListener(e -> controller.generarBitacoraPDF());
         
-        frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
-        frame.add(registroButton);
-        frame.add(crearCuentaButton);
-        frame.add(depositosButton);
-        frame.add(retirosButton);
-        frame.add(historialButton);
-        frame.add(generarBitacoraButton);
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        
+        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));  
+        pack();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
     }
 
     /**

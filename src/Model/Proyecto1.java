@@ -8,9 +8,10 @@ package Model;
  *
  * @author Christopher
  */
-import Controller.Controlador;
-import Model.Clientes;
-import View.Vista;
+import Model.Banco;
+import Controller.LoginController;
+import View.LoginView;
+
 public class Proyecto1 {
 
     /**
@@ -18,9 +19,8 @@ public class Proyecto1 {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Banco banco = new Banco();
+        LoginController loginController = new LoginController(banco);
+        new LoginView(loginController);
     }
-    Vista vista = new Vista();
-    Clientes cliente = new Clientes("20","Jose","Cesar");
-    Controlador controlador = new Controlador(cliente,vista);
-    Clientes cliente1 = new Clientes ("","","");
 }
