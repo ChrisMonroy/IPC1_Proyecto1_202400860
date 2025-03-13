@@ -8,19 +8,48 @@ package Controller;
  *
  * @author Christopher
  */
-import Model.Banco;
+import Model.Bitacora;
+import Model.Clientes;
+import Model.Cuentas;
+import Model.Reporte;
+import Model.Transaccion;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
+import util.ReportePDF;
 
 public class HistorialController {
-    private Banco banco;
+  private List<Clientes> clientes;
 
-    public HistorialController(Banco banco) {
-        this.banco = banco;
+    public HistorialController(List<Clientes> clientes) {
+        this.clientes = clientes;
     }
 
-    public void mostrarHistorial(String idCuenta) {
-        // Implementar lógica para mostrar historial de transacciones
-        // Este método puede abrir una nueva vista que muestre las transacciones
-        JOptionPane.showMessageDialog(null, "Historial de transacciones para la cuenta: " + idCuenta);
+    // Método para obtener las transacciones de una cuenta
+    public List<Transaccion> obtenerTransacciones(String idCuenta) {
+        List<Transaccion> transacciones = new ArrayList<>();
+        for (Clientes cliente : clientes) {
+            for (Cuentas cuenta : cliente.getCuentas()) {
+                if (cuenta.getId().equals(idCuenta)) {
+                    transacciones.addAll(cuenta.getTransacciones());
+                    return transacciones; // Retorna las transacciones de la cuenta encontrada
+                }
+            }
+        }
+        // Si no se encuentra la cuenta, muestra un mensaje de error
+        Bitacora.registrar("AdministradorIPC1D", "Búsqueda de transacciones", "Error", 
+            "No se encontraron transacciones para la cuenta con ID: " + idCuenta);
+        JOptionPane.showMessageDialog(null, "No se encontraron transacciones para la cuenta.", "Error", JOptionPane.ERROR_MESSAGE);
+        return transacciones; // Retorna una lista vacía si no se encontraron transacciones
+    }
+
+    // Método para generar el reporte en PDF
+    public void generarReporteTransacciones(String idCuenta) {
+        List<Transaccion> transacciones = obtenerTransacciones(idCuenta);
+        if (!transacciones.isEmpty()) {
+            // Generar el reporte en PDF
+            Reporte reporte = new Reporte("Historial de Transacciones", transacciones);
+            ReportePDF.generarReporte(reporte);
+        }
     }
 }

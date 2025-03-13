@@ -10,42 +10,57 @@ package View;
  */
 import javax.swing.*;
 import Controller.RetirosController;
+import Model.Clientes;
+import Model.Cuentas;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
 public class Retiros extends javax.swing.JFrame {
 
     /**
      * Creates new form Retiros
      */
-    private JFrame frame;
-    private JTextField idCuentaField;
+  // private JComboBox<String> jComboBox1;
     private JTextField montoField;
-    private RetirosController controller;
-    
-    public Retiros(RetirosController controller) {
-         this.controller = controller;
-        frame = new JFrame("Retiros");
-        idCuentaField = new JTextField(20);
-        montoField = new JTextField(20);
-        JButton retirarButton = new JButton("Retirar");
+    private JButton retirarButton;
 
-        retirarButton.addActionListener(e -> {
-            try {
+    public Retiros(RetirosController retiroController, List<Clientes> clientes) {
+        setTitle("Realizar Retiro");
+        setSize(400, 150);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(3, 2));
+
+        panel.add(new JLabel("ID de la Cuenta:"));
+        jComboBox1 = new JComboBox<>();
+        for (Clientes cliente : clientes) {
+            for (Cuentas cuenta : cliente.getCuentas()) {
+                jComboBox1.addItem(cuenta.getId() + " - " + cliente.getNombre() + " " + cliente.getApellido());
+            }
+        }
+        panel.add(jComboBox1);
+
+        panel.add(new JLabel("Monto:"));
+        montoField = new JTextField();
+        panel.add(montoField);
+
+        retirarButton = new JButton("Retirar");
+        retirarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String idCuenta = (String) jComboBox1.getSelectedItem();
+                idCuenta = idCuenta.split(" - ")[0]; // Extraer el ID de la cuenta
                 double monto = Double.parseDouble(montoField.getText());
-                controller.realizarRetiro(idCuentaField.getText(), monto);
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(frame, "Monto inválido. Debe ser un número.", "Error", JOptionPane.ERROR_MESSAGE);
+                retiroController.realizarRetiro(idCuenta, monto);
             }
         });
+        panel.add(retirarButton);
 
-        frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
-        frame.add(new JLabel("ID de Cuenta:"));
-        frame.add(idCuentaField);
-        frame.add(new JLabel("Monto:"));
-        frame.add(montoField);
-        frame.add(retirarButton);
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setVisible(true);
+        add(panel);
     }
 
     /**
@@ -74,6 +89,7 @@ public class Retiros extends javax.swing.JFrame {
 
         jComboBox1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setName(""); // NOI18N
 
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N

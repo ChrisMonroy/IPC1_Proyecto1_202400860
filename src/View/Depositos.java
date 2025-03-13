@@ -10,39 +10,53 @@ package View;
  */
 import javax.swing.*;
 import Controller.DepositosController;
-public class Depositos extends javax.swing.JFrame {
-     private JFrame frame;
-    private JTextField idCuentaField;
-    private JTextField montoField;
-    private DepositosController controller;
-    /**
-     * Creates new form Depositos
-     */
-    public Depositos(DepositosController controller) {
-        this.controller = controller;
-        frame = new JFrame("Depósitos");
-        idCuentaField = new JTextField(20);
-        montoField = new JTextField(20);
-        JButton depositarButton = new JButton("Depositar");
+import Model.Clientes;
+import Model.Cuentas;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
-        depositarButton.addActionListener(e -> {
-            try {
+public class Depositos extends javax.swing.JFrame {
+      private JComboBox<String> idCuentaComboBox;
+    private JTextField montoField;
+    private JButton depositarButton;
+
+    public Depositos(DepositosController depositoController, List<Clientes> clientes) {
+        setTitle("Realizar Depósito");
+        setSize(400, 150);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(3, 2));
+
+        panel.add(new JLabel("ID de la Cuenta:"));
+        idCuentaComboBox = new JComboBox<>();
+        for (Clientes cliente : clientes) {
+            for (Cuentas cuenta : cliente.getCuentas()) {
+                idCuentaComboBox.addItem(cuenta.getId() + " - " + cliente.getNombre() + " " + cliente.getApellido());
+            }
+        }
+        panel.add(idCuentaComboBox);
+
+        panel.add(new JLabel("Monto:"));
+        montoField = new JTextField();
+        panel.add(montoField);
+
+        depositarButton = new JButton("Depositar");
+        depositarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String idCuenta = (String) idCuentaComboBox.getSelectedItem();
+                idCuenta = idCuenta.split(" - ")[0]; // Extraer el ID de la cuenta
                 double monto = Double.parseDouble(montoField.getText());
-                controller.realizarDeposito(idCuentaField.getText(), monto);
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(frame, "Monto inválido. Debe ser un número.", "Error", JOptionPane.ERROR_MESSAGE);
+                depositoController.realizarDeposito(idCuenta, monto);
             }
         });
+        panel.add(depositarButton);
 
-        frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
-        frame.add(new JLabel("ID de Cuenta:"));
-        frame.add(idCuentaField);
-        frame.add(new JLabel("Monto:"));
-        frame.add(montoField);
-        frame.add(depositarButton);
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setVisible(true);
+        add(panel);
     }
 
     /**

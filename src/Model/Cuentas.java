@@ -9,34 +9,57 @@ package Model;
  * @author Christopher
  */
 import java.util.UUID;
+import Model.Transaccion;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Cuentas {
-    private String ID;
-    private String CUI;
+    private String id;
+    private Clientes cliente;
     private double saldo;
-    
-    public Cuentas(String cuiCliente, double saldoInicial) {
-        this.ID = UUID.randomUUID().toString(); 
-        this.CUI = cuiCliente;
-        this.saldo = saldoInicial; 
+    private List<Transaccion> transacciones;
+
+    public Cuentas(String id, Clientes cliente) {
+        this.id = id;
+        this.cliente = cliente;
+        this.saldo = 0.0;  
+        this.transacciones = new ArrayList<>();
     }
 
-    public String getId() { return ID; }
-    public String getCuiCliente() { return CUI; }
-    public double getSaldo() { return saldo; }
+    public String getId() {
+        return id;
+    }
+
+    public Clientes getCliente() {
+        return cliente;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public List<Transaccion> getTransacciones() {
+        return transacciones;
+    }
+
+    public void setTransacciones(List<Transaccion> transacciones) {
+        this.transacciones = transacciones;
+    }
 
     public void depositar(double monto) {
         if (monto > 0) {
             saldo += monto;
         } else {
-            System.out.println("El monto a depositar debe ser mayor que cero.");
+            throw new IllegalArgumentException("El monto del depósito debe ser mayor a 0.");
         }
     }
 
-    public boolean retirar(double monto) {
-        if (monto <= saldo) {
+    public void retirar(double monto) {
+        if (monto > 0 && saldo >= monto) {
             saldo -= monto;
-            return true;
+        } else {
+            throw new IllegalArgumentException("Monto inválido o saldo insuficiente.");
         }
-        return false; // Saldo insuficiente
     }
+    
 }

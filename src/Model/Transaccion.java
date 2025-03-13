@@ -8,21 +8,23 @@ package Model;
  *
  * @author Christopher
  */
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.UUID;
 
 public class Transaccion {
-    private String id;
-    private Date fecha;
+   private String id;
     private String detalle;
     private double montoDebitado;
     private double montoAcreditado;
+    private LocalDateTime fechaHora;
 
-    public Transaccion(String id, Date fecha, String detalle, double montoDebitado, double montoAcreditado) {
-        this.id = id;
-        this.fecha = fecha;
+    public Transaccion(String detalle, double montoAcreditado, double montoDebitado) {
+        this.id = UUID.randomUUID().toString();
         this.detalle = detalle;
-        this.montoDebitado = montoDebitado;
         this.montoAcreditado = montoAcreditado;
+        this.montoDebitado = montoDebitado;
+        this.fechaHora = LocalDateTime.now();
     }
 
     public String getId() {
@@ -31,14 +33,6 @@ public class Transaccion {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
     }
 
     public String getDetalle() {
@@ -64,5 +58,12 @@ public class Transaccion {
     public void setMontoAcreditado(double montoAcreditado) {
         this.montoAcreditado = montoAcreditado;
     }
-    
+
+    public LocalDateTime getFechaHora() {
+        return fechaHora;
+    }
+
+    public void setFechaHora(LocalDateTime fechaHora) {
+        this.fechaHora = fechaHora;
+    }
 }

@@ -8,28 +8,47 @@ package Controller;
  *
  * @author Christopher
  */
-import Model.Banco;
 import Model.Cuentas;
 import Model.Bitacora;
 import javax.swing.*;
-public class DepositosController {
-    private Banco banco;
-    private Bitacora bitacora;
+import Model.Clientes;
+import java.util.List;
 
-    public DepositosController(Banco banco, Bitacora bitacora) {
-        this.banco = banco;
-        this.bitacora = bitacora;
+public class DepositosController {
+    private List<Clientes> clientes;
+
+    // Constructor que recibe la lista de clientes
+    public DepositosController(List<Clientes> clientes) {
+        this.clientes = clientes;
     }
 
     public void realizarDeposito(String idCuenta, double monto) {
-        Cuentas cuenta = banco.buscarCuenta(idCuenta);
-        if (cuenta != null && monto > 0) {
-            cuenta.depositar(monto);
-            String registro = "Depósito: Cuenta ID: " + idCuenta + ", Monto: " + monto + ", Nuevo Saldo: " + cuenta.getSaldo();
-            bitacora.agregarRegistro(registro);
-            JOptionPane.showMessageDialog(null, "Depósito realizado con éxito.");
+        Cuentas cuenta = buscarCuentaPorId(idCuenta);
+        if (cuenta != null) {
+            if (monto > 0) {
+                cuenta.depositar(monto);
+                Bitacora.registrar("AdministradorIPC1D", "Depósito", "Éxito", 
+                    "Depósito de Q" + monto + " realizado. Saldo actual: Q" + cuenta.getSaldo());
+            } else {
+                Bitacora.registrar("AdministradorIPC1D", "Depósito", "Error", 
+                    "El monto del depósito debe ser mayor a 0.");
+                JOptionPane.showMessageDialog(null, "El monto del depósito debe ser mayor a 0.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
-            JOptionPane.showMessageDialog(null, "Error en el depósito.");
+            Bitacora.registrar("AdministradorIPC1D", "Depósito", "Error", 
+                "Cuenta no encontrada.");
+            JOptionPane.showMessageDialog(null, "Cuenta no encontrada.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private Cuentas buscarCuentaPorId(String idCuenta) {
+        for (Clientes cliente : clientes) {
+            for (Cuentas cuenta : cliente.getCuentas()) {
+                if (cuenta.getId().equals(idCuenta)) {
+                    return cuenta;
+                }
+            }
+        }
+        return null;
     }
 }

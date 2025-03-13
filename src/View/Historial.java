@@ -10,30 +10,74 @@ package View;
  */
 import javax.swing.*;
 import Controller.HistorialController;
+import Model.Transaccion;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 public class Historial extends javax.swing.JFrame {
 
     /**
      * Creates new form Historial
      */
-     private JFrame frame;
-    private JTextField idCuentaField;
-    private HistorialController controller;
-    
-    public Historial(HistorialController controller) {
-         this.controller = controller;
-        frame = new JFrame("Historial de Transacciones");
-        idCuentaField = new JTextField(20);
-        JButton mostrarButton = new JButton("Mostrar Transacciones");
+   private JTextField idCuentaField;
+    private JButton generarButton;
+    private JTextArea resultadoArea;
 
-        mostrarButton.addActionListener(e -> controller.mostrarHistorial(idCuentaField.getText()));
+    public Historial(HistorialController historialController) {
+        setTitle("Historial de Transacciones");
+        setSize(500, 300);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
 
-        frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
-        frame.add(new JLabel("ID de Cuenta:"));
-        frame.add(idCuentaField);
-        frame.add(mostrarButton);
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setVisible(true);
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(3, 2));
+
+        panel.add(new JLabel("ID de la Cuenta:"));
+        idCuentaField = new JTextField();
+        panel.add(idCuentaField);
+
+        generarButton = new JButton("Generar Reporte");
+        generarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String idCuenta = idCuentaField.getText();
+                // Obtener las transacciones
+                List<Transaccion> transacciones = historialController.obtenerTransacciones(idCuenta);
+                // Mostrar las transacciones en el área de texto
+                mostrarTransacciones(transacciones);
+                // Generar el reporte en PDF
+                historialController.generarReporteTransacciones(idCuenta);
+            }
+        });
+        panel.add(generarButton);
+
+        resultadoArea = new JTextArea();
+        resultadoArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(resultadoArea);
+        panel.add(scrollPane);
+
+        add(panel);
+    }
+
+    // Método para mostrar las transacciones en el área de texto
+    private void mostrarTransacciones(List<Transaccion> transacciones) {
+        resultadoArea.setText(""); // Limpiar el área de texto
+        if (transacciones.isEmpty()) {
+            resultadoArea.append("No se encontraron transacciones.\n");
+        } else {
+            for (Transaccion transaccion : transacciones) {
+                resultadoArea.append("ID: " + transaccion.getId() + "\n");
+                resultadoArea.append("Fecha: " + transaccion.getFechaHora() + "\n");
+                resultadoArea.append("Detalle: " + transaccion.getDetalle() + "\n");
+                resultadoArea.append("Monto Debitado: " + transaccion.getMontoDebitado() + "\n");
+                resultadoArea.append("Monto Acreditado: " + transaccion.getMontoAcreditado() + "\n");
+                resultadoArea.append("-------------------------\n");
+            }
+        }
     }
 
     /**

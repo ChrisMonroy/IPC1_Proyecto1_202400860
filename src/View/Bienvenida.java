@@ -6,6 +6,11 @@ package View;
 import Controller.BController;
 import javax.swing.*;
 import Controller.LoginController;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import View.Usuario;
+import Controller.RUsuarios;
 /**
  *
  * @author Christopher
@@ -15,44 +20,52 @@ public class Bienvenida extends javax.swing.JFrame {
     /**
      * Creates new form Bienvenida
      */
-    private JFrame frame;
-    private BController controller;
-   
-     public static void main(String args[]) {
-         java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-            }
-        });
-     }
-    public Bienvenida(BController controller) {
-        
+    
+
+    public Bienvenida() {
         initComponents();
-        this.controller = controller;
-        
-        /*JButton registroButton = new JButton("Registro Usuarios");
-        JButton crearCuentaButton = new JButton("Crear Cuenta");
-        JButton retirosButton = new JButton("Retiros");
-        JButton depositosButton = new JButton("Depósitos");
-        JButton historialButton = new JButton("Historial de Transacciones");
-        JButton generarBitacoraButton = new JButton("Generar Bitácora"); */
-        add (jButton1);
-        add (jButton2);
-        add (jButton3);
-        add (jButton4);
-        add (jButton5);
-        add (jButton6);
-        
-        jButton1.addActionListener(e -> controller.mostrarRegistroUsuario());
-        jButton2.addActionListener(e -> controller.mostrarCrearCuenta());
-        jButton3.addActionListener(e -> controller.mostrarRetiros());
-        jButton4.addActionListener(e -> controller.mostrarDepositos());
-        jButton5.addActionListener(e -> controller.mostrarHistorialTransacciones());
-        jButton6.addActionListener(e -> controller.generarBitacoraPDF());
-        
-        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));  
-        pack();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
+        add(jButton1);
+        add(jButton2);
+        add(jButton3);
+        add(jButton4);
+        add(jButton5);
+        add(jButton6);
+        add(jButton7);
+        add(jButton8);
+        add(jLabel1);
+    }
+    
+
+    public void addRegistroUsuarioListener(ActionListener listener) {
+        jButton1.addActionListener(listener);
+    }
+
+    public void addCrearCuentaListener(ActionListener listener) {
+        jButton2.addActionListener(listener);
+    }
+
+    public void addRetirosListener(ActionListener listener) {
+        jButton3.addActionListener(listener);
+    }
+
+    public void addDepositosListener(ActionListener listener) {
+        jButton4.addActionListener(listener);
+    }
+
+    public void addBuscarCuentasListener(ActionListener listener) {
+        jButton7.addActionListener(listener);
+    }
+
+    public void addHistorialTransaccionesListener(ActionListener listener) {
+        jButton5.addActionListener(listener);
+    }
+
+    public void addGenerarReportesListener(ActionListener listener) {
+       jButton6.addActionListener(listener);
+    }
+
+    public void addDatosEstudianteListener(ActionListener listener) {
+        jButton8.addActionListener(listener);
     }
 
     /**
@@ -74,6 +87,8 @@ public class Bienvenida extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -104,6 +119,12 @@ public class Bienvenida extends javax.swing.JFrame {
         jButton6.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jButton6.setText("Reportes");
 
+        jButton7.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jButton7.setText("Buscar");
+
+        jButton8.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jButton8.setText("Datos Estudiante");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -128,6 +149,12 @@ public class Bienvenida extends javax.swing.JFrame {
                         .addGap(37, 37, 37)
                         .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)))
                 .addContainerGap(63, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(123, 123, 123)
+                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(156, 156, 156))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -144,7 +171,11 @@ public class Bienvenida extends javax.swing.JFrame {
                     .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(180, Short.MAX_VALUE))
+                .addGap(56, 56, 56)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
 
         pack();
@@ -161,6 +192,8 @@ public class Bienvenida extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;

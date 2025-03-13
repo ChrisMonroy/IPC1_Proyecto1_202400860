@@ -6,6 +6,10 @@ package View;
 
 import javax.swing.*;
 import Controller.LoginController;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import View.Bienvenida;
 
 /**
  *
@@ -17,30 +21,71 @@ public class LoginView extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
-    private JFrame frame;
-    private JTextField userField;
+    private JTextField usuarioField;
     private JPasswordField passwordField;
-    private LoginController controller;
-    public LoginView(LoginController controller) {
+    private JButton loginButton;
+
+    public LoginView(LoginController loginController) {
         initComponents();
-         this.controller = controller;
-        frame = new JFrame("Login");
-        userField = new JTextField(20);
-        passwordField = new JPasswordField(20);
-        JButton loginButton = new JButton("Login");
+        add(jButton1);
+        add(jLabel1);
+        add(jLabel2);
+        add(jLabel3);
+        add(jTextField1);
+        add(jTextField2);
+        
+        //setTitle("USAC International Bank - Login"); // Título de la ventana
+        //setSize(300, 200); // Tamaño de la ventana
+       // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Cerrar la aplicación al cerrar la ventana
+        //setLocationRelativeTo(null); // Centrar la ventana en la pantalla
 
-        loginButton.addActionListener(e -> controller.login(userField.getText(), new String(passwordField.getPassword())));
+        //Crear un panel para organizar los componentes
+        //JPanel panel = new JPanel();
+       // panel.setLayout(new GridLayout(3, 2)); // Diseño de cuadrícula de 3 filas y 2 columnas
 
-        frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
-        frame.add(new JLabel("Usuario:"));
-        frame.add(userField);
-        frame.add(new JLabel("Contraseña:"));
-        frame.add(passwordField);
-        frame.add(loginButton);
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        // Campo de texto para el nombre de usuario
+       // panel.add(new JLabel("Usuario:")); // Etiqueta para el campo de usuario
+        //usuarioField = new JTextField(); // Campo de texto para ingresar el usuario
+       // panel.add(usuarioField);
+
+        // Campo de texto para la contraseña
+       // panel.add(new JLabel("Contraseña:")); // Etiqueta para el campo de contraseña
+       // passwordField = new JPasswordField(); // Campo de texto para ingresar la contraseña
+        
+        //panel.add(passwordField);
+
+        // Botón para iniciar sesión
+            //loginButton = new JButton("Iniciar Sesión");
+            jButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String usuario = jTextField1.getText();
+                String password = jTextField2.getText();
+                Boolean prueba= loginController.iniciarSesion(usuario, password);
+                if (prueba) {
+                    //dispose(); 
+                    
+                    Bienvenida bienvenidaView = new Bienvenida();
+                    //new Bienvenida().setVisible(true);
+                    bienvenidaView.setVisible(true);
+                }
+                
+            }
+        });
+        //panel.add(loginButton); 
+
+       // add(panel);
     }
+
+    // Método para obtener el usuario
+    public String getUsuario() {
+        return jTextField1.getText();
+    }
+
+    // Método para obtener la contraseña
+    public String getPassword() {
+        return jTextField2.getText();
+    }   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -53,12 +98,10 @@ public class LoginView extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,18 +111,8 @@ public class LoginView extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel2.setText("Usuario");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
         jLabel3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel3.setText("Contraseña");
-
-        jTextArea2.setColumns(20);
-        jTextArea2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
 
         jButton1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jButton1.setText("Iniciar Sesion");
@@ -89,6 +122,10 @@ public class LoginView extends javax.swing.JFrame {
             }
         });
 
+        jTextField1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+
+        jTextField2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -96,49 +133,51 @@ public class LoginView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(240, 240, 240)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(246, 246, 246)
-                .addComponent(jLabel3)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(218, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(170, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jTextField1)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE))
+                        .addGap(144, 144, 144))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(217, 217, 217))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addGap(276, 276, 276))
+                        .addGap(250, 250, 250))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(154, 154, 154))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(242, 242, 242))))
+                        .addComponent(jLabel3)
+                        .addGap(245, 245, 245))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addComponent(jLabel1)
-                .addGap(49, 49, 49)
+                .addGap(37, 37, 37)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60)
+                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
                 .addComponent(jButton1)
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
@@ -147,9 +186,7 @@ public class LoginView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
+    public javax.swing.JTextField jTextField1;
+    public javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }

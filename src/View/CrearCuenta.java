@@ -10,52 +10,32 @@ package View;
  */
 import javax.swing.*;
 import Controller.CrearCuentaController;
-import Model.Banco;
 import Model.Clientes;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class CrearCuenta extends javax.swing.JFrame {
 
     /**
      * Creates new form CrearCuenta
      */
-    private JFrame frame;
-    private JComboBox<String> clienteComboBox; // Lista desplegable para seleccionar el cliente
-    private JTextField saldoField; // Campo para el saldo inicial
-    private CrearCuentaController controller;
+   private JTextField cuiClienteField;
+    private JTextField idCuentaField;
+    private JButton crearButton;
 
-    
-    public CrearCuenta(Banco banco, CrearCuentaController controller) {
-       this.controller = controller;
-        frame = new JFrame("Crear Cuenta");
-
-        // Crear lista desplegable de clientes
-        clienteComboBox = new JComboBox<>();
-        for (Clientes cliente : banco.clientes.values()) {
-            clienteComboBox.addItem(cliente.cui + " - " + cliente.nombre + " " + cliente.apellido);
-        }
-
-        saldoField = new JTextField(20); // Inicializar el campo de saldo
-        JButton crearButton = new JButton("Crear Cuenta");
-
-        crearButton.addActionListener(e -> {
-            String cuiCliente = clienteComboBox.getSelectedItem().toString().split(" - ")[0]; // Obtener el CUI del cliente seleccionado
-            try {
-                double saldoInicial = Double.parseDouble(saldoField.getText());
-                controller.crearCuenta(cuiCliente, saldoInicial);
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(frame, "Saldo inicial inválido. Debe ser un número.", "Error", JOptionPane.ERROR_MESSAGE);
+    public CrearCuenta(CrearCuentaController crearCuentaController) {
+        
+       add(jComboBox1);
+       add(jButton1);
+        jButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String cuiCliente = cuiClienteField.getText();
+                String idCuenta = idCuentaField.getText();
+                crearCuentaController.crearCuenta(cuiCliente, idCuenta);
             }
         });
-
-        frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
-        frame.add(new JLabel("Seleccionar Cliente:"));
-        frame.add(clienteComboBox);
-        frame.add(new JLabel("Saldo Inicial:")); // Etiqueta para el saldo inicial
-        frame.add(saldoField); // Campo para el saldo inicial
-        frame.add(crearButton);
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setVisible(true);
     }
 
     /**
@@ -69,6 +49,7 @@ public class CrearCuenta extends javax.swing.JFrame {
 
         jToolBar1 = new javax.swing.JToolBar();
         jComboBox1 = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
 
         jToolBar1.setRollover(true);
 
@@ -76,21 +57,31 @@ public class CrearCuenta extends javax.swing.JFrame {
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jButton1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jButton1.setText("Crear");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap(154, Short.MAX_VALUE)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(146, 146, 146))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(146, 146, 146))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(214, 214, 214))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(69, 69, 69)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(337, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 160, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(107, 107, 107))
         );
 
         pack();
@@ -102,6 +93,7 @@ public class CrearCuenta extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables

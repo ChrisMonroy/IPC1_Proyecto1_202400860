@@ -8,27 +8,47 @@ package Controller;
  *
  * @author Christopher
  */
-import Model.Banco;
 import Model.Cuentas;
 import Model.Bitacora;
+import Model.Clientes;
+import java.util.List;
 import javax.swing.*;
-public class RetirosController {
-    private Banco banco;
-    private Bitacora bitacora;
 
-    public RetirosController(Banco banco, Bitacora bitacora) {
-        this.banco = banco;
-        this.bitacora = bitacora;
+public class RetirosController {
+     private List<Clientes> clientes;
+
+    // Constructor que recibe la lista de clientes
+    public RetirosController(List<Clientes> clientes) {
+        this.clientes = clientes;
     }
 
     public void realizarRetiro(String idCuenta, double monto) {
-        Cuentas cuenta = banco.buscarCuenta(idCuenta);
-        if (cuenta != null && monto > 0 && cuenta.retirar(monto)) {
-            String registro = "Retiro: Cuenta ID: " + idCuenta + ", Monto: " + monto + ", Nuevo Saldo: " + cuenta.getSaldo();
-            bitacora.agregarRegistro(registro);
-            JOptionPane.showMessageDialog(null, "Retiro realizado con éxito.");
+        Cuentas cuenta = buscarCuentaPorId(idCuenta);
+        if (cuenta != null) {
+            if (monto > 0 && cuenta.getSaldo() >= monto) {
+                cuenta.retirar(monto);
+                Bitacora.registrar("AdministradorIPC1D", "Retiro", "Éxito", 
+                    "Retiro de Q" + monto + " realizado. Saldo actual: Q" + cuenta.getSaldo());
+            } else {
+                Bitacora.registrar("AdministradorIPC1D", "Retiro", "Error", 
+                    "Monto inválido o saldo insuficiente.");
+                JOptionPane.showMessageDialog(null, "Monto inválido o saldo insuficiente.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
-            JOptionPane.showMessageDialog(null, "Error en el retiro.");
+            Bitacora.registrar("AdministradorIPC1D", "Retiro", "Error", 
+                "Cuenta no encontrada.");
+            JOptionPane.showMessageDialog(null, "Cuenta no encontrada.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private Cuentas buscarCuentaPorId(String idCuenta) {
+        for (Clientes cliente : clientes) {
+            for (Cuentas cuenta : cliente.getCuentas()) {
+                if (cuenta.getId().equals(idCuenta)) {
+                    return cuenta;
+                }
+            }
+        }
+        return null;
     }
 }
