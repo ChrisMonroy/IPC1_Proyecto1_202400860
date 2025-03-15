@@ -29,6 +29,7 @@ public class DepositosController {
                 cuenta.depositar(monto);
                 Bitacora.registrar("AdministradorIPC1D", "Depósito", "Éxito", 
                     "Depósito de Q" + monto + " realizado. Saldo actual: Q" + cuenta.getSaldo());
+                JOptionPane.showMessageDialog(null, "Depósito realizado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 Bitacora.registrar("AdministradorIPC1D", "Depósito", "Error", 
                     "El monto del depósito debe ser mayor a 0.");

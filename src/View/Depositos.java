@@ -18,45 +18,52 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class Depositos extends javax.swing.JFrame {
-      private JComboBox<String> idCuentaComboBox;
-    private JTextField montoField;
-    private JButton depositarButton;
+    //private JComboBox<String> idCuentaComboBox;
+    //private JTextField montoField;
+    //private JButton depositarButton;
 
     public Depositos(DepositosController depositoController, List<Clientes> clientes) {
-        setTitle("Realizar Depósito");
-        setSize(400, 150);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
+        initComponents();
+        //setTitle("Realizar Depósito");
+        //setSize(400, 150);
+        //setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        //setLocationRelativeTo(null);
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 2));
+       // JPanel panel = new JPanel();
+        //panel.setLayout(new GridLayout(3, 2));
 
-        panel.add(new JLabel("ID de la Cuenta:"));
-        idCuentaComboBox = new JComboBox<>();
+        //panel.add(new JLabel("ID de la Cuenta:"));
+        //idCuentaComboBox = new JComboBox<>();
+        add(jComboBox1);
+        add(jButton1);
+        add(jLabel1);
+        add(jLabel2);
+        add(jTextField1);
         for (Clientes cliente : clientes) {
             for (Cuentas cuenta : cliente.getCuentas()) {
-                idCuentaComboBox.addItem(cuenta.getId() + " - " + cliente.getNombre() + " " + cliente.getApellido());
+                jComboBox1.addItem(cuenta.getId() + " - " + cliente.getNombre() + " " + cliente.getApellido());
             }
         }
-        panel.add(idCuentaComboBox);
+       // panel.add(idCuentaComboBox);
 
-        panel.add(new JLabel("Monto:"));
-        montoField = new JTextField();
-        panel.add(montoField);
+        //panel.add(new JLabel("Monto:"));
+        //montoField = new JTextField();
+        //panel.add(montoField);
 
-        depositarButton = new JButton("Depositar");
-        depositarButton.addActionListener(new ActionListener() {
+        //depositarButton = new JButton("Depositar");
+        jButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String idCuenta = (String) idCuentaComboBox.getSelectedItem();
+                String idCuenta = (String) jComboBox1.getSelectedItem();
                 idCuenta = idCuenta.split(" - ")[0]; // Extraer el ID de la cuenta
-                double monto = Double.parseDouble(montoField.getText());
+                double monto = Double.parseDouble(jTextField1.getText());
                 depositoController.realizarDeposito(idCuenta, monto);
+                dispose();
             }
         });
-        panel.add(depositarButton);
+        //panel.add(depositarButton);
 
-        add(panel);
+       // add(panel);
     }
 
     /**
@@ -71,9 +78,8 @@ public class Depositos extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -86,13 +92,10 @@ public class Depositos extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel2.setText("Monto");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
         jButton1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jButton1.setText("Aceptar");
+
+        jTextField1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -101,20 +104,20 @@ public class Depositos extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(63, 63, 63)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(216, 216, 216)
                         .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(206, 206, 206)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(164, 164, 164)
+                        .addGap(63, 63, 63)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(168, 168, 168)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(108, Short.MAX_VALUE))
+                .addContainerGap(116, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,11 +128,11 @@ public class Depositos extends javax.swing.JFrame {
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(130, 130, 130)
                 .addComponent(jLabel2)
+                .addGap(47, 47, 47)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         pack();
@@ -144,8 +147,7 @@ public class Depositos extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    public javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
 

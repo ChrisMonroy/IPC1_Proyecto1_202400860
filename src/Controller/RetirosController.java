@@ -29,6 +29,7 @@ public class RetirosController {
                 cuenta.retirar(monto);
                 Bitacora.registrar("AdministradorIPC1D", "Retiro", "Éxito", 
                     "Retiro de Q" + monto + " realizado. Saldo actual: Q" + cuenta.getSaldo());
+                JOptionPane.showMessageDialog(null, "Retiro realizado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 Bitacora.registrar("AdministradorIPC1D", "Retiro", "Error", 
                     "Monto inválido o saldo insuficiente.");

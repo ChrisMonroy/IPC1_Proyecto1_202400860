@@ -59,6 +59,7 @@ public class Usuario extends javax.swing.JFrame {
                 String nombre = jTextField2.getText();
                 String apellido = jTextField2.getText();
                 registroController.registrarUsuario(cui, nombre, apellido);
+                dispose();
             }
         });
       //  panel.add(registrarButton);

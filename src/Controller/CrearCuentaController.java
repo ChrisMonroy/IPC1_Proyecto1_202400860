@@ -47,11 +47,12 @@ public class CrearCuentaController {
         }
 
         Cuentas cuenta = new Cuentas(idCuenta, cliente);
+        cuenta.setSaldo(0); // Asegurarse de que el saldo inicial sea 0
         cliente.agregarCuenta(cuenta);
         Bitacora.registrar("AdministradorIPC1D", "Creación de cuenta", "Éxito", 
-            "Cuenta creada con número '" + idCuenta + "', saldo inicial: $0.");
+            "Cuenta creada con número '" + idCuenta + "', saldo inicial: Q0.");
+        JOptionPane.showMessageDialog(null, "Cuenta creada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);      
     }
-
     private Clientes buscarClientePorCui(String cui) {
         for (Clientes cliente : clientes) {
             if (cliente.getCui().equals(cui)) {

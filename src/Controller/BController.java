@@ -13,6 +13,7 @@ import Model.Transaccion;
 import View.Bienvenida;
 import View.BuscarCuentas;
 import View.CrearCuenta;
+import View.Datos;
 import View.Depositos;
 import View.Historial;
 import View.Reportes;
@@ -39,11 +40,22 @@ public class BController {
         this.cuentas = cuentas;
         this.transaccionModel = transaccionModel;
         this.bitacoraModel = bitacoraModel;
-
+        
+        this.view.addRegistroUsuarioListener(e -> mostrarRegistroUsuario());
+        this.view.addCrearCuentaListener(e -> mostrarCrearCuenta());
+        this.view.addRetirosListener(e -> mostrarRetiros());
+        this.view.addDepositosListener(e -> mostrarDepositos());
+        this.view.addBuscarCuentasListener(e -> mostrarBuscarCuentas());
+        this.view.addHistorialTransaccionesListener(e -> mostrarHistorialTransacciones());
+        this.view.addGenerarReportesListener(e -> mostrarGenerarReportes());
+        this.view.addDatosEstudianteListener(e -> mostrarDatosEstudiante());
+        
+        this.view.setVisible(true);
     }
-
+    
     // Método para mostrar la vista de Registro de Usuario
     public void mostrarRegistroUsuario() {
+       
         RUsuarios registroController = new RUsuarios(clientes);
         Usuario usuarioView = new Usuario(registroController);
         usuarioView.setVisible(true);
@@ -53,7 +65,7 @@ public class BController {
     // Método para mostrar la vista de Crear Cuenta
     public void mostrarCrearCuenta() {
         CrearCuentaController crearCuentaController = new CrearCuentaController(clientes);
-        CrearCuenta crearCuentaView = new CrearCuenta(crearCuentaController);
+        CrearCuenta crearCuentaView = new CrearCuenta(crearCuentaController, clientes);
         crearCuentaView.setVisible(true);
         bitacoraModel.registrar("AdministradorIPC1D", "Crear Cuenta", "Éxito", "Vista de creación de cuenta abierta.");
     }
@@ -72,11 +84,12 @@ public class BController {
     }
 
     // Método para mostrar la vista de Buscar Cuentas
-    private void mostrarBuscarCuentas() {
-        BuscarController buscarController = new BuscarController(clientes);
-        BuscarCuentas buscarCuentasView = new BuscarCuentas(buscarController);
-        buscarCuentasView.setVisible(true);
-        bitacoraModel.registrar("AdministradorIPC1D", "Buscar Cuentas", "Éxito", "Vista de búsqueda de cuentas abierta.");
+    public void mostrarBuscarCuentas() {
+    BuscarCuentas buscarCuentasView = new BuscarCuentas();
+    BuscarController buscarController = new BuscarController(clientes, buscarCuentasView);
+    buscarCuentasView.setController(buscarController);
+    buscarCuentasView.setVisible(true);
+    bitacoraModel.registrar("AdministradorIPC1D", "Buscar Cuentas", "Éxito", "Vista de búsqueda de cuentas abierta.");
     }
 
     // Método para mostrar la vista de Historial de Transacciones
@@ -88,7 +101,7 @@ public class BController {
     }
 
     // Método para mostrar la vista de Generar Reportes
-    private void mostrarGenerarReportes() {
+    public void mostrarGenerarReportes() {
         ReportesControler reportesController = new ReportesControler(clientes);
         Reportes reportesView = new Reportes(reportesController);
         reportesView.setVisible(true);
@@ -96,9 +109,9 @@ public class BController {
     }
 
     // Método para mostrar los datos del estudiante
-    private void mostrarDatosEstudiante() {
-       
-
+    public void mostrarDatosEstudiante() {
+       Datos datosView = new Datos();
+       datosView.setVisible(true);
         bitacoraModel.registrar("AdministradorIPC1D", "Datos del Estudiante", "Éxito", "Datos del estudiante mostrados.");
     }
 }

@@ -25,8 +25,6 @@ public class Proyecto1 {
       List<Clientes> clientes = new ArrayList<>();
       
      LoginController loginController = new LoginController();
-  
-     
      
      loginController.setClientes(clientes);
      

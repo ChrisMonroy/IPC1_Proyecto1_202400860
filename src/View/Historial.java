@@ -12,6 +12,7 @@ import javax.swing.*;
 import Controller.HistorialController;
 import Model.Transaccion;
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,167 +24,107 @@ public class Historial extends javax.swing.JFrame {
     /**
      * Creates new form Historial
      */
-   private JTextField idCuentaField;
-    private JButton generarButton;
-    private JTextArea resultadoArea;
+     private JTextField idCuentaField;
+    private JButton mostrarButton;
+    private JTable transaccionesTable;
+    private DefaultTableModel transaccionesTableModel;
+    private HistorialController controller;
 
-    public Historial(HistorialController historialController) {
-        setTitle("Historial de Transacciones");
-        setSize(500, 300);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
+    public Historial(HistorialController controller) {
+        this.controller = controller;
+        initComponent();
+    }
 
+    private void initComponent() {
+        idCuentaField = new JTextField(20);
+        mostrarButton = new JButton("Mostrar Historial");
+        transaccionesTable = new JTable();
+        transaccionesTableModel = new DefaultTableModel();
+
+        // Configurar el modelo de la tabla
+        transaccionesTableModel.addColumn("ID Cuenta"); // Cambiado a "ID Cuenta"
+        transaccionesTableModel.addColumn("Fecha y Hora");
+        transaccionesTableModel.addColumn("Detalle");
+        transaccionesTableModel.addColumn("Monto Debitado");
+        transaccionesTableModel.addColumn("Monto Acreditado");
+        transaccionesTableModel.addColumn("Saldo Disponible");
+        transaccionesTable.setModel(transaccionesTableModel);
+
+        JScrollPane scrollPane = new JScrollPane(transaccionesTable);
+
+        // Configurar el layout
+        setLayout(new BorderLayout());
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 2));
-
         panel.add(new JLabel("ID de la Cuenta:"));
-        idCuentaField = new JTextField();
         panel.add(idCuentaField);
+        panel.add(mostrarButton);
+        add(panel, BorderLayout.NORTH);
+        add(scrollPane, BorderLayout.CENTER);
 
-        generarButton = new JButton("Generar Reporte");
-        generarButton.addActionListener(new ActionListener() {
+        // Agregar listener al botón de "Mostrar Historial"
+        mostrarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String idCuenta = idCuentaField.getText();
-                // Obtener las transacciones
-                List<Transaccion> transacciones = historialController.obtenerTransacciones(idCuenta);
-                // Mostrar las transacciones en el área de texto
-                mostrarTransacciones(transacciones);
-                // Generar el reporte en PDF
-                historialController.generarReporteTransacciones(idCuenta);
+                String idCuenta = idCuentaField.getText().trim(); // Obtener el ID de la cuenta y eliminar espacios en blanco
+                if (!idCuenta.isEmpty()) {
+                    List<Transaccion> transacciones = controller.obtenerTransacciones(idCuenta);
+                    double saldoInicial = controller.obtenerSaldoInicial(idCuenta); // Obtener el saldo inicial (siempre 0)
+                    if (transacciones != null && !transacciones.isEmpty()) {
+                        mostrarTransacciones(transacciones, saldoInicial, idCuenta); // Mostrar las transacciones en la tabla
+                    } else {
+                        JOptionPane.showMessageDialog(Historial.this, "No se encontraron transacciones para la cuenta.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(Historial.this, "Ingrese un ID de cuenta válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
-        panel.add(generarButton);
 
-        resultadoArea = new JTextArea();
-        resultadoArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(resultadoArea);
-        panel.add(scrollPane);
-
-        add(panel);
+        // Configurar la ventana
+        setTitle("Historial de Transacciones");
+        setSize(800, 400);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
     }
 
-    // Método para mostrar las transacciones en el área de texto
-    private void mostrarTransacciones(List<Transaccion> transacciones) {
-        resultadoArea.setText(""); // Limpiar el área de texto
-        if (transacciones.isEmpty()) {
-            resultadoArea.append("No se encontraron transacciones.\n");
-        } else {
-            for (Transaccion transaccion : transacciones) {
-                resultadoArea.append("ID: " + transaccion.getId() + "\n");
-                resultadoArea.append("Fecha: " + transaccion.getFechaHora() + "\n");
-                resultadoArea.append("Detalle: " + transaccion.getDetalle() + "\n");
-                resultadoArea.append("Monto Debitado: " + transaccion.getMontoDebitado() + "\n");
-                resultadoArea.append("Monto Acreditado: " + transaccion.getMontoAcreditado() + "\n");
-                resultadoArea.append("-------------------------\n");
-            }
+    // Método para mostrar las transacciones en la tabla
+    private void mostrarTransacciones(List<Transaccion> transacciones, double saldoInicial, String idCuenta) {
+        transaccionesTableModel.setRowCount(0); // Limpiar la tabla
+        double saldoDisponible = 0; // Iniciar con un saldo inicial de 0
+
+        for (Transaccion transaccion : transacciones) {
+            saldoDisponible += (transaccion.getMontoAcreditado() - transaccion.getMontoDebitado());
+            transaccionesTableModel.addRow(new Object[]{
+                idCuenta, 
+                transaccion.getFechaHora(),
+                transaccion.getDetalle(),
+                transaccion.getMontoDebitado(),
+                transaccion.getMontoAcreditado(),
+                saldoDisponible
+            });
         }
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
      * regenerated by the Form Editor.
      */
-    @SuppressWarnings("unchecked")
+    // </editor-fold>
+@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTextArea4 = new javax.swing.JTextArea();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel1.setText("ID CUENTA");
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
-        jButton1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jButton1.setText("Mostrar");
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane2.setViewportView(jTable1);
-
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane3.setViewportView(jTextArea2);
-
-        jTextArea3.setColumns(20);
-        jTextArea3.setRows(5);
-        jScrollPane4.setViewportView(jTextArea3);
-
-        jTextArea4.setColumns(20);
-        jTextArea4.setRows(5);
-        jScrollPane5.setViewportView(jTextArea4);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(49, 49, 49)
-                                .addComponent(jButton1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(52, 52, 52)
-                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(68, 68, 68)
-                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addComponent(jLabel1))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 718, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(52, Short.MAX_VALUE))
+            .addGap(0, 770, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(jLabel1)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(jButton1)))
-                .addGap(77, 77, 77)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGap(0, 588, Short.MAX_VALUE)
         );
 
         pack();
@@ -192,21 +133,6 @@ public class Historial extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextArea jTextArea3;
-    private javax.swing.JTextArea jTextArea4;
     // End of variables declaration//GEN-END:variables
 }

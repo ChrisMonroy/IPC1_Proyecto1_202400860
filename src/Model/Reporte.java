@@ -27,6 +27,19 @@ public class Reporte {
         this.transacciones = transacciones;
     }
 
+    public void setTipoReporte(String tipoReporte) {
+        this.tipoReporte = tipoReporte;
+    }
+
+    public void setFechaGeneracion(LocalDateTime fechaGeneracion) {
+        this.fechaGeneracion = fechaGeneracion;
+    }
+
+    public void setTransacciones(List<Transaccion> transacciones) {
+        this.transacciones = transacciones;
+    }
+    
+
     public String getTipoReporte() {
         return tipoReporte;
     }

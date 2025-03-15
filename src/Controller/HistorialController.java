@@ -16,40 +16,38 @@ import Model.Transaccion;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import util.ReportePDF;
 
 public class HistorialController {
-  private List<Clientes> clientes;
-
+   private List<Clientes> clientes;
+    
     public HistorialController(List<Clientes> clientes) {
         this.clientes = clientes;
     }
 
-    // Método para obtener las transacciones de una cuenta
     public List<Transaccion> obtenerTransacciones(String idCuenta) {
         List<Transaccion> transacciones = new ArrayList<>();
+
         for (Clientes cliente : clientes) {
             for (Cuentas cuenta : cliente.getCuentas()) {
                 if (cuenta.getId().equals(idCuenta)) {
+                    if (cuenta.getTransacciones().size() >= 25) {
+                        JOptionPane.showMessageDialog(null, "No se pueden realizar más de 25 transacciones por cuenta.", "Error", JOptionPane.ERROR_MESSAGE);
+                        return transacciones;
+                    }
                     transacciones.addAll(cuenta.getTransacciones());
-                    return transacciones; // Retorna las transacciones de la cuenta encontrada
+                    return transacciones; // Retornar las transacciones encontradas
                 }
             }
         }
-        // Si no se encuentra la cuenta, muestra un mensaje de error
-        Bitacora.registrar("AdministradorIPC1D", "Búsqueda de transacciones", "Error", 
-            "No se encontraron transacciones para la cuenta con ID: " + idCuenta);
+
         JOptionPane.showMessageDialog(null, "No se encontraron transacciones para la cuenta.", "Error", JOptionPane.ERROR_MESSAGE);
-        return transacciones; // Retorna una lista vacía si no se encontraron transacciones
+        return transacciones; // Retornar lista vacía si no se encontraron transacciones
     }
 
-    // Método para generar el reporte en PDF
-    public void generarReporteTransacciones(String idCuenta) {
-        List<Transaccion> transacciones = obtenerTransacciones(idCuenta);
-        if (!transacciones.isEmpty()) {
-            // Generar el reporte en PDF
-            Reporte reporte = new Reporte("Historial de Transacciones", transacciones);
-            ReportePDF.generarReporte(reporte);
-        }
+    // Método para obtener el saldo inicial de la cuenta
+    public double obtenerSaldoInicial(String idCuenta) {
+        return 0.0; // Siempre retornar 0 como saldo inicial
     }
 }

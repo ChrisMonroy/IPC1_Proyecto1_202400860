@@ -5,14 +5,23 @@
 package View;
 
 import Controller.BuscarController;
+import Model.Clientes;
+import Model.Cuentas;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -25,33 +34,105 @@ public class BuscarCuentas extends javax.swing.JFrame {
      */
     private JTextField cuiClienteField;
     private JButton buscarButton;
+    private JTable clientesTable;
+    private JTable cuentasTable;
+    private DefaultTableModel clientesTableModel;
+    private DefaultTableModel cuentasTableModel;
+    private BuscarController controller;
 
-    public BuscarCuentas(BuscarController buscarCuentasController) {
+    public BuscarCuentas() {
+        initComponent();
+    }
+
+    public void setController(BuscarController controller) {
+        this.controller = controller;
+    }
+
+    private void initComponent() {
+        // Inicialización de componentes
+        cuiClienteField = new JTextField(20);
+        buscarButton = new JButton("Buscar");
+        clientesTable = new JTable();
+        cuentasTable = new JTable();
+
+        // Inicializar los modelos de las tablas
+        clientesTableModel = new DefaultTableModel();
+        cuentasTableModel = new DefaultTableModel();
+
+        // Configurar las columnas de la tabla de clientes
+        clientesTableModel.addColumn("CUI");
+        clientesTableModel.addColumn("Nombre");
+        clientesTableModel.addColumn("Apellido");
+
+        // Configurar las columnas de la tabla de cuentas
+        cuentasTableModel.addColumn("ID de la Cuenta");
+        cuentasTableModel.addColumn("Saldo");
+
+        // Asignar los modelos a las tablas
+        clientesTable.setModel(clientesTableModel);
+        cuentasTable.setModel(cuentasTableModel);
+
+        // Configurar el layout
+        setLayout(new BorderLayout());
+
+        // Panel superior para el campo de búsqueda y el botón
+        JPanel panelSuperior = new JPanel();
+        panelSuperior.setLayout(new FlowLayout(FlowLayout.LEFT));
+        panelSuperior.add(new JLabel("CUI del Cliente:"));
+        panelSuperior.add(cuiClienteField);
+        panelSuperior.add(buscarButton);
+
+        // Panel para las tablas
+        JPanel tablasPanel = new JPanel(new GridLayout(1, 2));
+        tablasPanel.add(new JScrollPane(clientesTable));
+        tablasPanel.add(new JScrollPane(cuentasTable));
+
+        // Agregar los paneles a la ventana
+        add(panelSuperior, BorderLayout.NORTH);
+        add(tablasPanel, BorderLayout.CENTER);
+
+        // Configurar la ventana
         setTitle("Buscar Cuentas Asociadas");
-        setSize(400, 100);
+        setSize(800, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(2, 2));
-
-        panel.add(new JLabel("CUI del Cliente:"));
-        cuiClienteField = new JTextField();
-        panel.add(cuiClienteField);
-
-        buscarButton = new JButton("Buscar");
+        // Agregar listener al botón de búsqueda
         buscarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String cuiCliente = cuiClienteField.getText();
-                buscarCuentasController.buscarCuentasAsociadas(cuiCliente);
+                if (controller != null) {
+                    controller.buscarCuentasAsociadas(cuiCliente);
+                } else {
+                    JOptionPane.showMessageDialog(BuscarCuentas.this, "Controlador no inicializado.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
-        panel.add(buscarButton);
-
-        add(panel);
     }
 
+    // Método para actualizar la tabla de clientes
+    public void actualizarTablaClientes(List<Clientes> clientes) {
+        clientesTableModel.setRowCount(0); // Limpiar la tabla
+        for (Clientes cliente : clientes) {
+            clientesTableModel.addRow(new Object[]{
+                cliente.getCui(),
+                cliente.getNombre(),
+                cliente.getApellido()
+            });
+        }
+    }
+
+    // Método para actualizar la tabla de cuentas
+    public void actualizarTablaCuentas(List<Cuentas> cuentas) {
+        cuentasTableModel.setRowCount(0); // Limpiar la tabla
+        for (Cuentas cuenta : cuentas) {
+            cuentasTableModel.addRow(new Object[]{
+                cuenta.getId(),
+                cuenta.getSaldo()
+            });
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -67,11 +148,11 @@ public class BuscarCuentas extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 943, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 505, Short.MAX_VALUE)
         );
 
         pack();

@@ -22,8 +22,20 @@ public class Cuentas {
     public Cuentas(String id, Clientes cliente) {
         this.id = id;
         this.cliente = cliente;
-        this.saldo = 0.0;  
+        this.saldo = 0.00;  
         this.transacciones = new ArrayList<>();
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setCliente(Clientes cliente) {
+        this.cliente = cliente;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
     }
 
     public String getId() {
@@ -49,6 +61,7 @@ public class Cuentas {
     public void depositar(double monto) {
         if (monto > 0) {
             saldo += monto;
+            transacciones.add(new Transaccion("Depósito", monto, 0)); // Guardar la transacción
         } else {
             throw new IllegalArgumentException("El monto del depósito debe ser mayor a 0.");
         }
@@ -57,9 +70,24 @@ public class Cuentas {
     public void retirar(double monto) {
         if (monto > 0 && saldo >= monto) {
             saldo -= monto;
+            transacciones.add(new Transaccion("Retiro", 0, monto)); // Guardar la transacción
         } else {
             throw new IllegalArgumentException("Monto inválido o saldo insuficiente.");
         }
     }
     
+    public void agregarTransaccion(Transaccion transaccion) {
+        if (transacciones.size() < 25) {
+            double nuevoSaldo = this.saldo; 
+            if (transaccion.getMontoAcreditado() > 0) {
+                nuevoSaldo += transaccion.getMontoAcreditado(); 
+            } else {
+                nuevoSaldo -= transaccion.getMontoDebitado(); 
+            }
+           // transaccion.setSaldoDisponible(nuevoSaldo); 
+            transacciones.add(transaccion);
+        } else {
+            throw new IllegalStateException("No se pueden realizar más de 25 transacciones por cuenta.");
+        }
+    }
 }

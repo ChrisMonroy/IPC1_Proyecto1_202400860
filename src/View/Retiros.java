@@ -23,44 +23,51 @@ public class Retiros extends javax.swing.JFrame {
      * Creates new form Retiros
      */
   // private JComboBox<String> jComboBox1;
-    private JTextField montoField;
-    private JButton retirarButton;
+   // private JTextField montoField;
+   // private JButton retirarButton;
 
     public Retiros(RetirosController retiroController, List<Clientes> clientes) {
-        setTitle("Realizar Retiro");
-        setSize(400, 150);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
+        initComponents();
+       // setTitle("Realizar Retiro");
+        //setSize(400, 150);
+        //setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        //setLocationRelativeTo(null);
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 2));
+        //JPanel panel = new JPanel();
+        //panel.setLayout(new GridLayout(3, 2));
 
-        panel.add(new JLabel("ID de la Cuenta:"));
-        jComboBox1 = new JComboBox<>();
+        //panel.add(new JLabel("ID de la Cuenta:"));
+        add(jComboBox1);
+        add(jButton1);
+        add(jTextField1);
+        add(jLabel1);
+        add(jLabel2);
+        
         for (Clientes cliente : clientes) {
             for (Cuentas cuenta : cliente.getCuentas()) {
                 jComboBox1.addItem(cuenta.getId() + " - " + cliente.getNombre() + " " + cliente.getApellido());
             }
         }
-        panel.add(jComboBox1);
+        //panel.add(jComboBox1);
 
-        panel.add(new JLabel("Monto:"));
-        montoField = new JTextField();
-        panel.add(montoField);
+        //panel.add(new JLabel("Monto:"));
+       // jTextField1 = new JTextField();
+        //panel.add(montoField);
 
-        retirarButton = new JButton("Retirar");
-        retirarButton.addActionListener(new ActionListener() {
+        //retirarButton = new JButton("Retirar");
+        jButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String idCuenta = (String) jComboBox1.getSelectedItem();
                 idCuenta = idCuenta.split(" - ")[0]; // Extraer el ID de la cuenta
-                double monto = Double.parseDouble(montoField.getText());
+                double monto = Double.parseDouble(jTextField1.getText());
                 retiroController.realizarRetiro(idCuenta, monto);
+                dispose();
             }
         });
-        panel.add(retirarButton);
+        //panel.add(retirarButton);
 
-        add(panel);
+        //add(panel);
     }
 
     /**
@@ -75,9 +82,8 @@ public class Retiros extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -91,50 +97,48 @@ public class Retiros extends javax.swing.JFrame {
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.setName(""); // NOI18N
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
         jButton1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jButton1.setText("Retirar");
+
+        jTextField1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(41, Short.MAX_VALUE)
+                .addGap(41, 41, 41)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTextField1)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(50, 50, 50))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(234, 234, 234))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addGap(152, 152, 152))
+                        .addGap(168, 168, 168))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(202, 202, 202))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(169, 169, 169))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(50, 50, 50))))
+                        .addGap(159, 159, 159))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(24, 24, 24)
                 .addComponent(jLabel1)
-                .addGap(31, 31, 31)
+                .addGap(32, 32, 32)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
                 .addComponent(jLabel2)
-                .addGap(52, 52, 52)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(75, 75, 75)
+                .addGap(64, 64, 64)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15))
+                .addGap(30, 30, 30))
         );
 
         pack();
@@ -150,7 +154,6 @@ public class Retiros extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    public javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

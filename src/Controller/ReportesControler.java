@@ -37,9 +37,12 @@ public class ReportesControler {
                 }
             }
             Reporte reporte = new Reporte("Depósitos", depositos);
-            ReportePDF.generarReporte(reporte);  // Generar el PDF usando ReportePDF
+            ReportePDF.generarReporte(reporte);
+
+            // Mensaje de información
+            JOptionPane.showMessageDialog(null, "Reporte de depósitos generado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            Bitacora.registrar("AdministradorIPC1D", "Generación de reporte", "Error", 
+            Bitacora.registrar("AdministradorIPC1D", "Generación de reporte", "Error",
                     "Cliente no encontrado para generar reporte de depósitos.");
             JOptionPane.showMessageDialog(null, "Cliente no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -57,9 +60,12 @@ public class ReportesControler {
                 }
             }
             Reporte reporte = new Reporte("Retiros", retiros);
-            ReportePDF.generarReporte(reporte);  // Generar el PDF usando ReportePDF
+            ReportePDF.generarReporte(reporte);
+
+            // Mensaje de información
+            JOptionPane.showMessageDialog(null, "Reporte de retiros generado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            Bitacora.registrar("AdministradorIPC1D", "Generación de reporte", "Error", 
+            Bitacora.registrar("AdministradorIPC1D", "Generación de reporte", "Error",
                     "Cliente no encontrado para generar reporte de retiros.");
             JOptionPane.showMessageDialog(null, "Cliente no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
         }

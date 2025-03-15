@@ -64,12 +64,11 @@ public class LoginView extends javax.swing.JFrame {
                 Boolean prueba= loginController.iniciarSesion(usuario, password);
                 if (prueba) {
                     //dispose(); 
-                    
-                    Bienvenida bienvenidaView = new Bienvenida();
+                   // Bienvenida bienvenidaView = new Bienvenida();
                     //new Bienvenida().setVisible(true);
-                    bienvenidaView.setVisible(true);
+                   // bienvenidaView.setVisible(true);
                 }
-                
+                dispose();
             }
         });
         //panel.add(loginButton); 

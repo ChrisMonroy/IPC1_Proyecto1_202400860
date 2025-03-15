@@ -65,18 +65,18 @@ import javax.swing.JOptionPane;
     public boolean iniciarSesion(String usuario, String password) {
        //String usuario = view.getUsuario();
        //String password = view.getPassword();
-       System.out.println("HOLA");
+       //System.out.println("HOLA");
         // Validar credenciales
         if (usuario.equals("AdministradorIPC1D") && password.equals("ipc1D1s2025")) {
-            System.out.println("ADIOS");
-            JOptionPane.showMessageDialog(view, "Hola", "Bienvenido", JOptionPane.INFORMATION_MESSAGE);
+            //System.out.println("ADIOS");
+            JOptionPane.showMessageDialog(view, "Bienvenido", "Bienvenido", JOptionPane.INFORMATION_MESSAGE);
             bitacoraModel.registrar("Sistema", "Inicio de sesión", "Éxito", "Sesión iniciada correctamente.");
 
             //Abrir la pantalla principal
            Bienvenida bienvenidaView = new Bienvenida();
            BController bController = new BController(bienvenidaView, clientes, new ArrayList<>(),
            new Transaccion("Inicio de sesión", 0.0, 0.0),bitacoraModel);
-           //bienvenidaView.setVisible(true);
+          // bienvenidaView.setVisible(true);
             return true;
 
             // Cerrar la ventana de inicio de sesión

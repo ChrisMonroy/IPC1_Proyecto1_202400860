@@ -42,5 +42,7 @@ public class RUsuarios {
         clientes.add(cliente);
         Bitacora.registrar("AdministradorIPC1D", "Registro de usuario", "Éxito", 
             "Usuario " + nombre + " " + apellido + " registrado.");
+        JOptionPane.showMessageDialog(null,"Cliente Registrado con exito", "Exito" ,JOptionPane.INFORMATION_MESSAGE);
+        
     }
 }

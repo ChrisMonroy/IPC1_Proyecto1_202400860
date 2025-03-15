@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.UUID;
 
 public class Transaccion {
-   private String id;
+    private String id;
     private String detalle;
     private double montoDebitado;
     private double montoAcreditado;

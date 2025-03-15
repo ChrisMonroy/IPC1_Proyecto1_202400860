@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import View.Usuario;
 import Controller.RUsuarios;
+import java.awt.PopupMenu;
 /**
  *
  * @author Christopher
@@ -33,11 +34,12 @@ public class Bienvenida extends javax.swing.JFrame {
         add(jButton7);
         add(jButton8);
         add(jLabel1);
+        
+         
     }
-    
 
     public void addRegistroUsuarioListener(ActionListener listener) {
-        jButton1.addActionListener(listener);
+    jButton1.addActionListener(listener);
     }
 
     public void addCrearCuentaListener(ActionListener listener) {
@@ -103,6 +105,11 @@ public class Bienvenida extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jButton1.setText("Registro Usuarios");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jButton2.setText("Crear Usuario");
@@ -180,6 +187,10 @@ public class Bienvenida extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
