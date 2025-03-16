@@ -36,7 +36,7 @@ public class ReportePDF {
 
             // Crear una tabla para mostrar las transacciones
             PdfPTable table = new PdfPTable(6); // 6 columnas
-            table.addCell("ID Transacción");
+            table.addCell("ID Cuenta");
             table.addCell("Fecha y Hora");
             table.addCell("Detalle");
             table.addCell("Monto Debitado");
