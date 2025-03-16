@@ -13,19 +13,30 @@ import java.util.Date;
 import java.util.UUID;
 
 public class Transaccion {
-    private String id;
+   private String id;
     private String detalle;
     private double montoDebitado;
     private double montoAcreditado;
     private LocalDateTime fechaHora;
+    private double saldoDisponible;
 
-    public Transaccion(String detalle, double montoAcreditado, double montoDebitado) {
-        this.id = UUID.randomUUID().toString();
+    public Transaccion(String id, String detalle, double montoDebitado, double montoAcreditado, LocalDateTime fechaHora, double saldoDisponible) {
+        this.id = id;
         this.detalle = detalle;
-        this.montoAcreditado = montoAcreditado;
         this.montoDebitado = montoDebitado;
-        this.fechaHora = LocalDateTime.now();
+        this.montoAcreditado = montoAcreditado;
+        this.fechaHora = fechaHora;
+        this.saldoDisponible = saldoDisponible;
     }
+
+    public double getSaldoDisponible() {
+        return saldoDisponible;
+    }
+
+    public void setSaldoDisponible(double saldoDisponible) {
+        this.saldoDisponible = saldoDisponible;
+    }
+    
 
     public String getId() {
         return id;

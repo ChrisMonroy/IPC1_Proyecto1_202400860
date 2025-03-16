@@ -17,7 +17,7 @@ import util.ReportePDF;
 import Model.Clientes;
 
 public class Reporte {
-    private String tipoReporte;
+     private String tipoReporte;
     private LocalDateTime fechaGeneracion;
     private List<Transaccion> transacciones;
 

@@ -10,6 +10,7 @@ package Model;
  */
 import java.util.UUID;
 import Model.Transaccion;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +62,7 @@ public class Cuentas {
     public void depositar(double monto) {
         if (monto > 0) {
             saldo += monto;
-            transacciones.add(new Transaccion("Depósito", monto, 0)); // Guardar la transacción
+            transacciones.add(new Transaccion(id,"Depósito", 0, monto, LocalDateTime.now(), saldo)); // Guardar la transacción
         } else {
             throw new IllegalArgumentException("El monto del depósito debe ser mayor a 0.");
         }
@@ -70,7 +71,7 @@ public class Cuentas {
     public void retirar(double monto) {
         if (monto > 0 && saldo >= monto) {
             saldo -= monto;
-            transacciones.add(new Transaccion("Retiro", 0, monto)); // Guardar la transacción
+            transacciones.add(new Transaccion(id, "Retiro", monto, 0, LocalDateTime.now(), saldo)); // Guardar la transacción
         } else {
             throw new IllegalArgumentException("Monto inválido o saldo insuficiente.");
         }

@@ -10,6 +10,7 @@ import Model.Cuentas;
 import Model.Transaccion;
 import View.Bienvenida;
 import View.LoginView;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -31,8 +32,6 @@ import javax.swing.JOptionPane;
         this.clientes = clientes;
         this.bitacoraModel = bitacoraModel;
 
-        // Agregar listener al botón de inicio de sesión
-        //this.view.addLoginListener(e -> iniciarSesion(usuario, password));
     }
 
     public LoginView getView() {
@@ -75,8 +74,8 @@ import javax.swing.JOptionPane;
             //Abrir la pantalla principal
            Bienvenida bienvenidaView = new Bienvenida();
            BController bController = new BController(bienvenidaView, clientes, new ArrayList<>(),
-           new Transaccion("Inicio de sesión", 0.0, 0.0),bitacoraModel);
-          // bienvenidaView.setVisible(true);
+           new Transaccion("" ,"Inicio de sesión", 0.0, 0.0, LocalDateTime.now(), 0.0),bitacoraModel);
+            //bienvenidaView.setVisible(true);
             return true;
 
             // Cerrar la ventana de inicio de sesión
